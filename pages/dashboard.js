@@ -17,7 +17,7 @@ function profile() {
   if (!data) return <h1>Loading...</h1>;
   if (data && data.error) {
     console.log(data.message);
-    //router.push("/");
+    router.push("/");
   }
   let loggedIn = false;
   if (data && data.email) {
