@@ -5,10 +5,8 @@ import validator from "validator";
 
 const Signup = () => {
   const [signupError, setSignupError] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const validateEmail = (e) => {
     var email = e.target.value;

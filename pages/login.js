@@ -32,7 +32,7 @@ const Login = () => {
     })
       .then((r) => r.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         if (data && data.error) {
           setLoginError(data.error);
         }

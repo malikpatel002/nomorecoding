@@ -21,7 +21,7 @@ function profile() {
 
   if (!data) return <h1>Loading...</h1>;
   if (data && data.error) {
-    console.log(data.message);
+    //console.log(data.message);
     router.push("/");
   }
   if (getName) {
@@ -55,6 +55,7 @@ function profile() {
       });
   }
   function updateNameAPI() {
+    //console.log(userName);
     fetch("/api/getProfile", {
       method: "POST",
       headers: {
@@ -68,7 +69,7 @@ function profile() {
     })
       .then((r) => r.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         if (data && data.Success) {
           setUpdateNameField(false);
           getName = true;
@@ -90,21 +91,21 @@ function profile() {
     })
       .then((r) => r.json())
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         if (data && data.Success) {
           setUpdatePassField(false);
           alert(data.message);
-          console.log("got success");
+          //console.log("got success");
           // getPass = true;
           // getAPI();
         } else {
-          console.log(data.error);
+          //console.log(data.error);
           setUpdatePassError(data.message);
         }
       });
   }
   const validatePass = (e) => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     e.preventDefault();
     setUserPass(e.target.value);
     if (
@@ -160,7 +161,12 @@ function profile() {
                 <td className="">Full Name </td>
                 <td className="" id="userName">
                   {updateNameField && (
-                    <form>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        //return e.which != 13;
+                      }}
+                    >
                       <input
                         id="updateName"
                         onChange={(e) => validateUserName(e)}
@@ -199,15 +205,17 @@ function profile() {
                 <td className="">Password </td>
                 {updatePassField && (
                   <td className="" id="userPass">
-                    <form>
-                      <>
-                        <input
-                          id="updatePass"
-                          onChange={(e) => validatePass(e)}
-                          type="password"
-                          placeholder="Enter Password"
-                        ></input>
-                      </>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <input
+                        id="updatePass"
+                        onChange={(e) => validatePass(e)}
+                        type="password"
+                        placeholder="Enter Password"
+                      ></input>
                     </form>
                     <br />
                     {updatePassError && (

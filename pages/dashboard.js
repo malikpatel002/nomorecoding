@@ -10,13 +10,13 @@ function profile() {
   const router = useRouter();
   const { data, revalidate } = useSWR("/api/me", async function (args) {
     const res = await fetch(args);
-    console.log(res);
+    //console.log(res);
     return res.json();
   });
 
   if (!data) return <h1>Loading...</h1>;
   if (data && data.error) {
-    console.log(data.message);
+    //console.log(data.message);
     router.push("/");
   }
   let loggedIn = false;
