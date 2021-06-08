@@ -51,12 +51,10 @@ const Signup = () => {
     })
       .then((r) => r.json())
       .then((data) => {
-        console.log(data);
-        if (data && data.error) {
-          setSignupError(data.message);
+        if (data && !data.Success) {
+          setSignupError(data.error);
         }
         if (data && data.token) {
-          //set cookie
           cookie.set("token", data.token, { expires: 2 });
           Router.push("/dashboard");
         }
