@@ -11,8 +11,12 @@ function profile() {
   const [userName, setUserName] = useState("");
   const [updatePassField, setUpdatePassField] = useState(false);
   const [userPass, setUserPass] = useState("");
-  const [updatePassError, setUpdatePassError] = useState("");
-
+  const [error, setError] = useState("");
+  if (typeof window === "object") {
+    const nameSubmit = document.getElementById("nameSubmit");
+    const passSubmit = document.getElementById("passSubmit");
+  }
+  // let validName = false;
   const router = useRouter();
   const { data, revalidate } = useSWR("/api/me", async function (args) {
     const res = await fetch(args);
@@ -29,14 +33,45 @@ function profile() {
   }
 
   const validateUserName = (e) => {
+    e.preventDefault();
     let userName = e.target.value;
-    const regex = /^[A-Za-z]+$/;
+    //const regex = /^[A-Za-z]+$/;
     setUserName(userName);
-    if (!regex.test(userName) && userName.length <= 5) {
+    if (validator.isAlpha(userName) && userName.length >= 3) {
+      e.target.setCustomValidity("");
+      // validName = false;
+      // console.log(validName);
+      nameSubmit.disabled = false;
+    } else {
       e.target.setCustomValidity("Please Enter valid User Name");
-    } else e.target.setCustomValidity("");
+      //validName = true;
+      // console.log(typeof userName);
+      nameSubmit.disabled = true;
+    }
   };
 
+  const validatePass = (e) => {
+    //console.log(e.target.value);
+    e.preventDefault();
+    setUserPass(e.target.value);
+    if (
+      validator.isStrongPassword(e.target.value, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+    ) {
+      e.target.setCustomValidity("");
+      passSubmit.disabled = false;
+    } else {
+      e.target.setCustomValidity(
+        "Please Enter password of minimum 8 letter with minimum\n: 1 lowercase, 1 uppercase, 1 number and 1 symbol !!"
+      );
+      passSubmit.disabled = true;
+    }
+  };
   function getNameAPI() {
     fetch("/api/getProfile", {
       method: "POST",
@@ -50,7 +85,8 @@ function profile() {
     })
       .then((r) => r.json())
       .then((data) => {
-        document.getElementById("userName").innerHTML = data.userName;
+        document.getElementById("updateName").value = data.userName;
+        //console.log(data);
         getName = false;
       });
   }
@@ -69,15 +105,17 @@ function profile() {
     })
       .then((r) => r.json())
       .then((data) => {
-        //console.log(data);
         if (data && data.Success) {
           setUpdateNameField(false);
           getName = true;
           getNameAPI();
+        } else {
+          setError(data.error);
         }
       });
   }
   function updatePassAPI() {
+    console.log("update password");
     fetch("/api/getProfile", {
       method: "POST",
       headers: {
@@ -91,47 +129,239 @@ function profile() {
     })
       .then((r) => r.json())
       .then((data) => {
-        //console.log(data);
+        console.log(data);
         if (data && data.Success) {
           setUpdatePassField(false);
           alert(data.message);
-          //console.log("got success");
+          console.log("got success");
           // getPass = true;
           // getAPI();
         } else {
-          //console.log(data.error);
-          setUpdatePassError(data.message);
+          console.log(data.error);
+          setError(data.message);
         }
       });
-  }
-  const validatePass = (e) => {
-    //console.log(e.target.value);
-    e.preventDefault();
-    setUserPass(e.target.value);
-    if (
-      validator.isStrongPassword(e.target.value, {
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-      })
-    ) {
-      e.target.setCustomValidity("");
-    } else {
-      e.target.setCustomValidity(
-        "Please Enter password of minimum 8 letter with minimum\n: 1 lowercase, 1 uppercase, 1 number and 1 symbol !!"
-      );
-    }
-  };
-  function editUser() {
-    setUpdateNameField(true);
-    document.getElementById("userName").innerHTML = "";
   }
 
   return (
     <div>
-      <div>
+      <Head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>NoMoreCoding Dashboard</title>
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        {/* <link
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+          rel="stylesheet"
+        /> */}
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="/vendors/perfect-scrollbar/perfect-scrollbar.css"
+        />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="/vendors/bootstrap-icons/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" type="text/css" href="/css/app.css" />
+        {/* <!-- <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> --> */}
+      </Head>
+
+      <div id="app">
+        <div id="sidebar" className="active">
+          <div className="sidebar-wrapper active">
+            <div className="sidebar-header">
+              <div className="d-flex justify-content-between">
+                <div className="logo">
+                  <a href="/" className="page-heading">
+                    <img src="/images/logo/logo.png" alt="Logo" />
+                    NoMoreCoding
+                  </a>
+                </div>
+                {/* <div className="toggler">
+                  <a href="#" className="sidebar-hide d-xl-none d-block">
+                    <i className="bi bi-x bi-middle"></i>
+                  </a>
+                </div> */}
+              </div>
+            </div>
+            <div className="sidebar-menu">
+              <ul className="menu">
+                <li className="sidebar-item  ">
+                  <a href="/dashboard" className="sidebar-link">
+                    <i className="bi bi-grid-fill"></i>
+                    <span>Dashboard</span>
+                  </a>
+                </li>
+
+                <li className="sidebar-item  ">
+                  <a href="#" className="sidebar-link">
+                    <i className="bi bi-person"></i>
+                    <span>Profile</span>
+                  </a>
+                </li>
+                <li className="sidebar-item  ">
+                  <a
+                    onClick={() => {
+                      cookie.remove("token");
+                      router.push("/");
+                    }}
+                    className="sidebar-link"
+                  >
+                    <i className="bi"></i>
+                    <span>Logout</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <button className="sidebar-toggler btn x">
+              <i data-feather="x"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="main">
+        <header className="mb-3">
+          <a href="#" className="burger-btn d-block d-xl-none">
+            <i className="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <div className="page-heading">
+          <div className="page-title row col-12 col-md-6 order-md-1 order-last">
+            <h3>Profile </h3>
+          </div>
+
+          <section id="basic-horizontal-layouts">
+            <div className="row match-height">
+              <div className="col-12">
+                <div className="card">
+                  <div className="card-content">
+                    <div className="card-body">
+                      <div className="form-body">
+                        <div className="row">
+                          <div className="col-md-2">
+                            <label>User Name</label>
+                          </div>
+                          <div className="col-md-4 form-group">
+                            <form
+                              className="form form-horizontal"
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                updateNameAPI(e);
+                                //return e.which != 13;
+                              }}
+                            >
+                              <input
+                                type="text"
+                                id="updateName"
+                                className="form-control"
+                                placeholder="User Name"
+                                onChange={(e) => validateUserName(e)}
+                                disabled={!updateNameField}
+                              />
+                            </form>
+                          </div>
+
+                          <div className="col-md-4 justify-content-end">
+                            <button
+                              id="nameSubmit"
+                              onClick={(e) => {
+                                if (updateNameField) updateNameAPI(e);
+                                else {
+                                  setUpdateNameField(true);
+                                  nameSubmit.disabled = true;
+                                }
+                              }}
+                              className="btn btn-primary me-1 mb-1"
+                            >
+                              {updateNameField ? "Submit" : "Edit"}
+                            </button>
+                            {updateNameField && (
+                              <button
+                                className="btn btn-light-secondary me-1 mb-1"
+                                onClick={() => {
+                                  setUpdateNameField(false);
+                                  nameSubmit.disabled = false;
+                                  getName = true;
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-md-2">
+                            <label>Password</label>
+                          </div>
+                          <div className="col-md-4 form-group">
+                            <form
+                              className="form form-horizontal"
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                updatePassAPI(e);
+                              }}
+                            >
+                              <input
+                                type="password"
+                                id="updatePass"
+                                className="form-control"
+                                name="password"
+                                placeholder="Enter a new password"
+                                onChange={(e) => validatePass(e)}
+                                disabled={!updatePassField}
+                              />
+                            </form>
+                          </div>
+                          <div className="col-md-4 justify-content-end">
+                            <button
+                              id="passSubmit"
+                              onClick={(e) => {
+                                console.log("update Pass");
+                                if (updatePassField) updatePassAPI(e);
+                                else {
+                                  setUpdatePassField(true);
+                                  passSubmit.disabled = true;
+                                }
+                              }}
+                              className="btn btn-primary me-1 mb-1"
+                              // disabled={updatePassField}
+                            >
+                              {updatePassField ? "Submit" : "Edit"}
+                            </button>
+                            {updatePassField && (
+                              <button
+                                className="btn btn-light-secondary me-1 mb-1"
+                                onClick={() => {
+                                  setUpdatePassField(false);
+                                  passSubmit.disabled = false;
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            )}
+                          </div>
+                          {error && <p style={{ color: "red" }}>{setError}</p>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <script src="/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+
+        <script src="/js/main.js"></script>
+        {/* <div>
         <Head>
           <title>Welcome to profile page</title>
           <meta
@@ -139,9 +369,9 @@ function profile() {
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        {/* {!loggedIn && } */}
+        // {!loggedIn && } 
         <h1> Login as {data.email} </h1>
-        {/* <p>Welcome {data.email} !!!</p> */}
+        // <p>Welcome {data.email} !!!</p>
         <button
           onClick={() => {
             cookie.remove("token");
@@ -152,7 +382,7 @@ function profile() {
           Logout
         </button>
       </div>
-      <div className="">
+      <div cla  ssName="">
         <div className="">Profile Settings</div>
         <div className="">
           <table className="">
@@ -244,6 +474,7 @@ function profile() {
             </tbody>
           </table>
         </div>
+      </div> */}
       </div>
     </div>
   );
