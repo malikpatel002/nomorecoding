@@ -37,6 +37,7 @@ const Signup = () => {
       );
     }
   };
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -61,6 +62,7 @@ const Signup = () => {
         }
       });
   }
+
   return (
     <div>
       <Head>
@@ -69,134 +71,86 @@ const Signup = () => {
         <title>Login - Mazer Admin Dashboard</title>
         {/* <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet"/> */}
         <link rel="stylesheet" href="/css/bootstrap.css" />
-        {/* <link rel="stylesheet" href="/vendors/bootstrap-icons/bootstrap-icons.css"/> */}
+        <link
+          rel="stylesheet"
+          href="/vendors/bootstrap-icons/bootstrap-icons.css"
+        />
         <link rel="stylesheet" href="/css/app.css" />
         <link rel="stylesheet" href="/css/pages/auth.css" />
       </Head>
 
-      <body>
-        <div id="auth">
-          <div className="row h-100">
-            <div className="col-lg-5 col-12">
-              <div id="auth-left">
-                <div className="auth-logo">
-                  <a href="/" className="page-heading">
-                    <img src="/images/logo/logo.png" alt="Logo" />
-                    NoMoreCoding
-                  </a>
-                </div>
-                <h1 className="auth-title">Sign Up</h1>
-                <p className="auth-subtitle mb-5">
-                  Input your data to register to our website.
-                </p>
+      <div id="auth">
+        <div className="row h-100">
+          <div className="col-lg-5 col-12">
+            <div id="auth-left">
+              <div className="auth-logo">
+                <a href="/" className="page-heading">
+                  <img src="/images/logo/logo.png" alt="Logo" />
+                  NoMoreCoding
+                </a>
+              </div>
+              <h1 className="auth-title">Sign Up</h1>
+              <p className="auth-subtitle mb-5">
+                Input your data to register to our website.
+              </p>
 
-                <form onSubmit={handleSubmit}>
-                  <div className="form-group position-relative has-icon-left mb-4">
-                    <input
-                      className="form-control form-control-xl"
-                      placeholder="Email"
-                      value={email}
-                      id="email"
-                      onChange={(e) => validateEmail(e)}
-                      name="email"
-                      type="email"
-                      required
-                    />
-                    <div className="form-control-icon">
-                      <i className="bi bi-envelope"></i>
-                    </div>
-                  </div>
-                  {/* <div className="form-group position-relative has-icon-left mb-4">
-                    <input
-                      type="text"
-                      className="form-control form-control-xl"
-                      placeholder="Username"
-                    />
-                    <div className="form-control-icon">
-                      <i className="bi bi-person"></i>
-                    </div>
-                  </div> */}
-                  <div className="form-group position-relative has-icon-left mb-4">
-                    <input
-                      type="password"
-                      className="form-control form-control-xl"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => validatePassword(e)}
-                      name="password"
-                      required
-                    />
-                    <div className="form-control-icon">
-                      <i className="bi bi-shield-lock"></i>
-                    </div>
-                  </div>
-
-                  {signupError && (
-                    <div className="alert alert-danger">{signupError}</div>
-                  )}
-                  {/* <div className="form-group position-relative has-icon-left mb-4">
-                    <input
-                      type="password"
-                      className="form-control form-control-xl"
-                      placeholder="Confirm Password"
-                    />
-                    <div className="form-control-icon">
-                      <i className="bi bi-shield-lock"></i>
-                    </div>
-                  </div> */}
+              <form onSubmit={handleSubmit}>
+                <div className="form-group position-relative has-icon-left mb-4">
                   <input
-                    className="btn btn-primary btn-block btn-lg shadow-lg mt-5"
-                    type="submit"
-                    value="Sign Up"
+                    className="form-control form-control-xl"
+                    placeholder="Email"
+                    value={email}
+                    id="email"
+                    onChange={(e) => validateEmail(e)}
+                    name="email"
+                    type="email"
+                    required
                   />
-                </form>
-                <div className="text-center mt-5 text-lg fs-4">
-                  <p className="text-gray-600">
-                    Already have an account?{" "}
-                    <a href="login" className="font-bold">
-                      Log in
-                    </a>
-                    .
-                  </p>
+                  <div className="form-control-icon">
+                    <i className="bi bi-person"></i>
+                  </div>
                 </div>
+                <div className="form-group position-relative has-icon-left mb-4">
+                  <input
+                    type="password"
+                    className="form-control form-control-xl"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => validatePassword(e)}
+                    name="password"
+                    required
+                  />
+                  <div className="form-control-icon">
+                    <i className="bi bi-shield-lock"></i>
+                  </div>
+                </div>
+
+                {signupError && (
+                  <div className="alert alert-danger">{signupError}</div>
+                )}
+
+                <input
+                  className="btn btn-primary btn-block btn-lg shadow-lg mt-5"
+                  type="submit"
+                  value="Sign Up"
+                />
+              </form>
+              <div className="text-center mt-5 text-lg fs-4">
+                <p className="text-gray-600">
+                  Already have an account?{" "}
+                  <a href="login" className="font-bold">
+                    Log in
+                  </a>
+                  .
+                </p>
               </div>
             </div>
-            <div className="col-lg-7 d-none d-lg-block">
-              <div id="auth-right"></div>
-            </div>
+          </div>
+          <div className="col-lg-7 d-none d-lg-block">
+            <div id="auth-right"></div>
           </div>
         </div>
-        {/* <form onSubmit={handleSubmit}>
-      <p>Sign Up</p>
-      <label htmlFor="email">
-        email
-        <input
-          value={email}
-          id="email"
-          onChange={(e) => validateEmail(e)}
-          name="email"
-          type="email"
-          required
-        />
-      </label>
-      <br />
-
-      <label for="password">
-        password
-        <input
-          value={password}
-          onChange={(e) => validatePassword(e)}
-          name="password"
-          type="password"
-          required
-        />
-      </label>
-      <br />
-
-      <input type="submit" value="Submit" />
-      {signupError && <p style={{ color: "red" }}>{signupError}</p>}
-    </form> */}
-      </body>
+      </div>
     </div>
   );
 };

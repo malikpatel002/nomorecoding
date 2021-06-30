@@ -33,26 +33,4 @@ handler.post(async (req, res) => {
   // saved!
 });
 
-//   User.insertOne(
-//     {
-//       email,
-//       password,
-//       userName,
-//     },
-//     function (err, userCreated) {
-//       if (userCreated.ops.length === 1) {
-//         const user = creationResult.ops[0];
-//         const token = jwt.sign(
-//           { userId: user.userId, email: user.email },
-//           jwtSecret,
-//           {
-//             expiresIn: 3000, //50 minutes
-//           }
-//         );
-//         res.status(200).json({ token });
-//         return;
-//     }
-// //   );
-// });
-
 export default (req, res) => handler.run(req, res);

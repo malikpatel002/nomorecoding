@@ -1,14 +1,12 @@
 import mongoose from "mongoose";
-import { MONGODB_URL_STRING } from "../global";
-// const MONGODB_CONN_STR =
+import { MONGODB_URL_STRING_DEV } from "../global";
 
 const databaseMiddleware = async (req, res, next) => {
   try {
     if (!global.mongoose) {
-      global.mongoose = await mongoose.connect(MONGODB_URL_STRING, {
+      global.mongoose = await mongoose.connect(MONGODB_URL_STRING_DEV, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: false,
       });
     }
   } catch (ex) {

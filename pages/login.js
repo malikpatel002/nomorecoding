@@ -3,44 +3,13 @@ import { useRouter } from "next/router";
 import cookie from "js-cookie";
 import validator from "validator";
 import Head from "next/head";
-// import logo from "../styles/images/logo/logo.png";
-// import "../styles/css/bootstrap.css";
-// import "./assets/css/bootstrap.css";
-// import "./assets/css/app.css";s
-// import "./assets/css/pages/auth.css";
-// if (!document.getElementById)
-// document
-//   .getElementsByTagName("head")[0]
-//   .appendChild(
-//     '<link rel="stylesheet" type="text/css" href="../styles/css/bootstrap.css">'
-//   );
 
-// function LoadCSS(cssURL) {
-//   // 'cssURL' is the stylesheet's URL, i.e. /css/styles.css
-//   return new Promise(function (resolve, reject) {
-//     var link = document.createElement("link");
-//     link.rel = "stylesheet";
-//     link.href = cssURL;
-//     // document.head.appendChild(link);
-//     link.onload = function () {
-//       resolve();
-//       console.log("CSS has loaded!");
-//     };
-//   });
-// }
-// LoadCSS("../styles/globals.css");
-
-// document.write();
 const Login = () => {
-  // document
-  //   .getElementsByTagName("head")[0]
-  //   .append(
-  //     '<link rel="stylesheet" type="text/css" href="../styles/css/bootstrap.css">'
-  //   );
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
   const validateEmail = (e) => {
     var email = e.target.value;
     setEmail(email);
@@ -49,10 +18,10 @@ const Login = () => {
       e.target.setCustomValidity("Enter valid email");
     } else e.target.setCustomValidity("");
   };
+
   function handleSubmit(e) {
     e.preventDefault();
-    // console.log(email);
-    //call api
+
     fetch("/api/logIn", {
       method: "POST",
       headers: {
@@ -65,17 +34,15 @@ const Login = () => {
     })
       .then((r) => r.json())
       .then((data) => {
-        //console.log(data);
-        if (data && data.error) {
+        // console.log(data);
+        if (data && data.Success) {
           setLoginError(data.error);
         }
         if (data && data.token) {
-          //set cookie
           cookie.set("token", data.token, { expires: 2 });
           router.push("/dashboard");
         }
       });
-    // fetch(`/api/logIn?email=${email}&password=${password}`)
   }
   return (
     <div>
@@ -85,12 +52,10 @@ const Login = () => {
         <title>Login - NoMoreCoding Admin Dashboard</title>
         {/* <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet"> */}
         <link rel="stylesheet" href="/css/bootstrap.css" type="text/css" />
-        {/* <link
+        <link
           rel="stylesheet"
-          type="text/css"
-          href="../styles/css/bootstrap.css"
-        ></link> */}
-        {/* <link rel="stylesheet" href="/vendors/bootstrap-icons/bootstrap-icons.css"/> */}
+          href="/vendors/bootstrap-icons/bootstrap-icons.css"
+        />
         <link rel="stylesheet" type="text/css" href="/css/app.css" />
         <link rel="stylesheet" type="text/css" href="/css/pages/auth.css" />
       </Head>
@@ -114,8 +79,9 @@ const Login = () => {
                   <input
                     className="form-control form-control-xl"
                     placeholder="Email"
-                    value={email}
-                    // id="email"
+                    // value={email}
+                    value="123@gmail.com"
+                    id="email"
                     onChange={(e) => validateEmail(e)}
                     name="email"
                     type="email"
@@ -130,8 +96,12 @@ const Login = () => {
                     type="password"
                     className="form-control form-control-xl"
                     placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    // value={password}
+                    value="123"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setLoginError("");
+                    }}
                     name="password"
                     required
                   />
@@ -139,20 +109,15 @@ const Login = () => {
                     <i className="bi bi-shield-lock"></i>
                   </div>
                 </div>
-                {/* <div className="form-check form-check-lg d-flex align-items-end">
-                        <input className="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault">
-                        <label className="form-check-label text-gray-600" for="flexCheckDefault">
-                            Keep me logged in
-                        </label>
-                    </div> */}
-                <button
+                {loginError && (
+                  <div className="alert alert-danger">{loginError}</div>
+                )}
+                <input
                   className="btn btn-primary btn-block btn-lg shadow-lg mt-5"
-                  onClick={handleSubmit}
-                >
-                  Log in
-                </button>
+                  type="submit"
+                  value="Log In"
+                />
               </form>
-              {loginError && <p style={{ color: "red" }}>{loginError}</p>}
               <div className="text-center mt-5 text-lg fs-4">
                 <p className="text-gray-600">
                   Don't have an account?
@@ -175,36 +140,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-      {/* </div> */}
-      {/* <form onSubmit={handleSubmit}>
-        <p>Login</p>
-        <label htmlFor="email">
-          email
-          <input
-            value={email}
-            // id="email"
-            onChange={(e) => validateEmail(e)}
-            name="email"
-            type="email"
-            required
-          />
-        </label>
-        <br />
-
-        <label htmlFor="password">
-          password
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            name="password"
-            type="password"
-            required
-          />
-        </label>
-        <input type="submit" value="Submit" />
-        {loginError && <p style={{ color: "red" }}>{loginError}</p>}
-      </form> */}
     </div>
   );
 };

@@ -13,7 +13,7 @@ export default (req, res) => {
       try {
         decoded = jwt.verify(token, jwtSecret);
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
 
