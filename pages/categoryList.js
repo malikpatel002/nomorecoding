@@ -75,6 +75,7 @@ function categoryList() {
           setSuccess(
             `Category ${addOrEdit ? "entered" : "updated"} successfully!!!`
           );
+          getCategoryListAPI();
         } else {
           setError(data.error);
         }
