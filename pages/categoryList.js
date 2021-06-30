@@ -2,9 +2,7 @@ import React, { useContext, useState } from "react";
 import Header from "../components/Header";
 import SideBar from "../components/sidebar";
 import useSWR from "swr";
-import cookie from "js-cookie";
 import { useRouter } from "next/router";
-import categoryRow from "../components/categoryRow";
 import HeaderPage from "../components/headerPage";
 
 let index = 1;
@@ -13,20 +11,19 @@ function categoryList() {
   const [addOrEdit, setAddOrEdit] = useState(true);
   const [categoryName, setCategoryName] = useState("");
   const [categoryIcon, setCategoryIcon] = useState("");
-  const [isActive, setIsActive] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [categoryId, setCategoryId] = useState();
 
   const router = useRouter();
-  // const { data, revalidate } = useSWR("/api/me", async function (args) {
-  //   const res = await fetch(args);
-  //   return res.json();
-  // });
+  const { data } = useSWR("/api/me", async function (args) {
+    const res = await fetch(args);
+    return res.json();
+  });
 
-  // if (data && data.error) {
-  //   router.push("/");
-  // }
+  if (data && data.error) {
+    router.push("/");
+  }
 
   if (index == 1) getCategoryListAPI();
   function getCategoryListAPI() {

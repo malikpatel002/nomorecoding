@@ -1,4 +1,3 @@
-import { ObjectId } from "bson";
 import productsModel from "../../models/productsModel";
 import createHandler from "../../Mongoose/createHandler";
 
@@ -11,7 +10,7 @@ handler.post(async (req, res) => {
       if (req.body.editId) {
         user = await productsModel.find({ _id: req.body.editId });
       } else {
-        user = await productsModel.find({ detail: "cc" });
+        user = await productsModel.find();
       }
 
       if (user) res.status(200).json({ Success: true, productsList: user });

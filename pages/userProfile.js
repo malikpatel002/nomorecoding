@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import Head from "next/head";
 import Header from "../components/Header";
 import SideBar from "../components/sidebar";
 import HeaderPage from "../components/headerPage";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 let reload = true;
-// const userId = "5f9a7c2cf01ed8064aba8623";
+
 function userProfile() {
   const router = useRouter();
   const { userId } = router.query;
@@ -16,16 +15,15 @@ function userProfile() {
   const [follower, setFollower] = useState(0);
   const [followed, setFollowed] = useState(0);
   const [bookmark, setBookmark] = useState(0);
-  // console.log("in DashBoard");
-  // const router = useRouter();
-  // const { data, revalidate } = useSWR("/api/me", async function (args) {
-  //   const res = await fetch(args);
-  //   return res.json();
-  // });
 
-  // if (data && data.error) {
-  //   router.push("/");
-  // }
+  const { data } = useSWR("/api/me", async function (args) {
+    const res = await fetch(args);
+    return res.json();
+  });
+
+  if (data && data.error) {
+    router.push("/");
+  }
 
   if (userId && reload) {
     getUserInfoAPI();

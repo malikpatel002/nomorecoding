@@ -4,11 +4,8 @@ import SideBar from "../components/sidebar";
 import HeaderPage from "../components/headerPage";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-// import { Navigation } from "react-minimal-side-navigation";
-// import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
 
 function Dashboard() {
-  // console.log("in DashBoard");
   const router = useRouter();
   const { data, revalidate } = useSWR("/api/me", async function (args) {
     const res = await fetch(args);

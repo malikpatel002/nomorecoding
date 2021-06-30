@@ -1,12 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import SideBar from "../components/sidebar";
 import HeaderPage from "../components/headerPage";
-import Link from "next/link";
 import useSWR from "swr";
-import cookie from "js-cookie";
 import { useRouter } from "next/router";
-import Card from "react-bootstrap/Card";
 
 let reload = true;
 function productsList() {
@@ -14,10 +11,10 @@ function productsList() {
   const [addOrEdit, setAddOrEdit] = useState(true);
   const [productName, setProductName] = useState("");
   const [productIcon, setProductIcon] = useState("");
-  const [isActive, setIsActive] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [productId, setProductId] = useState();
+
   const router = useRouter();
   const { data, revalidate } = useSWR("/api/me", async function (args) {
     const res = await fetch(args);
@@ -79,28 +76,6 @@ function productsList() {
         reload = true;
       });
   }
-
-  const editProduct = (e) => {
-    setSuccess("");
-    setError("");
-    setAddOrEdit(false);
-    let id = e.target.parentNode.parentNode.id;
-    let rowId = parseInt(
-      e.target.parentNode.parentNode.childNodes[0].outerText - 1
-    );
-    if (typeof rowId === "number") {
-      // console.log(typeof rowId);
-      setProductId(id);
-      setProductName(productsList[rowId].name);
-      setProductIcon(productsList[rowId].icon);
-      if (productsList[rowId].isActive)
-        document.getElementById("productStatusActive").checked = true;
-      else document.getElementById("productStatusInactive").checked = true;
-    } else {
-      alert("Please select again!!!!");
-    }
-    // alert("Name: " + name + "\nAge: " + age);
-  };
 
   return (
     <div>
@@ -167,14 +142,7 @@ function productsList() {
                             </td>
                             <td>
                               <a
-                                // onClick={(e) => {
-                                //   editProduct(e);
-                                // }}
                                 href={"/addOrEditProduct?id=" + product._id}
-                                // href={{
-                                //   pathname: "/addOrEditProduct",
-                                //   query: { id: product._id },
-                                // }}
                                 className="btn btn-sm btn-primary"
                               >
                                 <i className="bi bi-pencil-square" />

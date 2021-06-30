@@ -3,11 +3,9 @@ import Header from "../components/Header";
 import SideBar from "../components/sidebar";
 import HeaderPage from "../components/headerPage";
 import useSWR from "swr";
-import cookie from "js-cookie";
 import { useRouter } from "next/router";
 import validator from "validator";
-// let getName = true;
-//
+
 function profile() {
   const [updateNameField, setUpdateNameField] = useState(false);
   const [userName, setUserName] = useState("");
@@ -18,7 +16,7 @@ function profile() {
     const nameSubmit = document.getElementById("nameSubmit");
     const passSubmit = document.getElementById("passSubmit");
   }
-  // let validName = false;
+
   const router = useRouter();
   const { data, revalidate } = useSWR("/api/me", async function (args) {
     const res = await fetch(args);
@@ -28,26 +26,7 @@ function profile() {
     router.push("/");
   }
 
-  // if (getName) {
-  //   getNameAPI();
-  // }
-
-  // const validateUserName = (e) => {
-  //   e.preventDefault();
-  //   let userName = e.target.value;
-  //   //const regex = /^[A-Za-z]+$/;
-  //   setUserName(userName);
-  //   if (validator.isAlpha(userName) && userName.length >= 3) {
-  //     e.target.setCustomValidity("");
-  //     nameSubmit.disabled = false;
-  //   } else {
-  //     e.target.setCustomValidity("Please Enter valid User Name");
-  //     nameSubmit.disabled = true;
-  //   }
-  // };
-
   const validatePass = (e) => {
-    //console.log(e.target.value);
     e.preventDefault();
     setUserPass(e.target.value);
     if (
@@ -125,15 +104,10 @@ function profile() {
     })
       .then((r) => r.json())
       .then((data) => {
-        // console.log(data);
         if (data && data.Success) {
           setUpdatePassField(false);
           alert(data.message);
-          // console.log("got success");
-          // getPass = true;
-          // getAPI();
         } else {
-          // console.log(data.error);
           setError(data.message);
         }
       });

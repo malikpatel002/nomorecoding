@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import HeaderPage from "../components/headerPage";
 import SideBar from "../components/sidebar";
 import useSWR from "swr";
-import cookie from "js-cookie";
 import { useRouter } from "next/router";
+
 let reload = true;
 function userList() {
   const [usersList, setUsersList] = useState([]);
