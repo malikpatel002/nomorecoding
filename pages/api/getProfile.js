@@ -1,4 +1,4 @@
-import User from "../../models/userModel";
+import adminModel from "../../models/adminModel";
 import createHandler from "../../Mongoose/createHandler";
 
 const handler = createHandler();
@@ -10,7 +10,7 @@ handler.post(async (req, res) => {
 
     switch (callFor) {
       case "getUserName": {
-        let user = await User.findById(id);
+        let user = await adminModel.findById(id);
         if (user)
           res.status(200).send({ Success: true, userName: user.userName });
         else res.status(200).send({ Success: false, error: "User Not Found" });
@@ -18,7 +18,7 @@ handler.post(async (req, res) => {
       }
       case "updateUserName": {
         // let user = await Person.replaceOne({ _id }, { name: 'Jean-Luc Picard' });
-        let user = await User.findOneAndUpdate(
+        let user = await adminModel.findOneAndUpdate(
           { _id: id },
           { userName: req.body.userName }
         );
@@ -28,7 +28,7 @@ handler.post(async (req, res) => {
         break;
       }
       case "updatePass": {
-        let user = await User.findOneAndUpdate(
+        let user = await adminModel.findOneAndUpdate(
           { _id: id },
           { password: req.body.pass }
         );

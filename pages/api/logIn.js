@@ -13,8 +13,8 @@ handler.post(async (req, res) => {
 
     // let user = await userModel.findOne();
     let user = await adminModel.findOne({
-      email: "admin@gmail.com",
-      password: "9141@twigapp",
+      email,
+      password,
     });
 
     // const user = await new User().find({ email, password }).exec();

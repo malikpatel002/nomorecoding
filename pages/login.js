@@ -79,8 +79,7 @@ const Login = () => {
                   <input
                     className="form-control form-control-xl"
                     placeholder="Email"
-                    // value={email}
-                    value="123@gmail.com"
+                    value={email}
                     id="email"
                     onChange={(e) => validateEmail(e)}
                     name="email"
@@ -96,8 +95,7 @@ const Login = () => {
                     type="password"
                     className="form-control form-control-xl"
                     placeholder="Password"
-                    // value={password}
-                    value="123"
+                    value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
                       setLoginError("");

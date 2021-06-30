@@ -6,7 +6,7 @@ import useSWR from "swr";
 import cookie from "js-cookie";
 import { useRouter } from "next/router";
 import validator from "validator";
-let getName = true;
+// let getName = true;
 //
 function profile() {
   const [updateNameField, setUpdateNameField] = useState(false);
@@ -28,23 +28,23 @@ function profile() {
     router.push("/");
   }
 
-  if (getName) {
-    getNameAPI();
-  }
+  // if (getName) {
+  //   getNameAPI();
+  // }
 
-  const validateUserName = (e) => {
-    e.preventDefault();
-    let userName = e.target.value;
-    //const regex = /^[A-Za-z]+$/;
-    setUserName(userName);
-    if (validator.isAlpha(userName) && userName.length >= 3) {
-      e.target.setCustomValidity("");
-      nameSubmit.disabled = false;
-    } else {
-      e.target.setCustomValidity("Please Enter valid User Name");
-      nameSubmit.disabled = true;
-    }
-  };
+  // const validateUserName = (e) => {
+  //   e.preventDefault();
+  //   let userName = e.target.value;
+  //   //const regex = /^[A-Za-z]+$/;
+  //   setUserName(userName);
+  //   if (validator.isAlpha(userName) && userName.length >= 3) {
+  //     e.target.setCustomValidity("");
+  //     nameSubmit.disabled = false;
+  //   } else {
+  //     e.target.setCustomValidity("Please Enter valid User Name");
+  //     nameSubmit.disabled = true;
+  //   }
+  // };
 
   const validatePass = (e) => {
     //console.log(e.target.value);
@@ -68,48 +68,48 @@ function profile() {
       passSubmit.disabled = true;
     }
   };
-  function getNameAPI() {
-    fetch("/api/getProfile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: data.userId,
-        callFor: "getUserName",
-      }),
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        document.getElementById("updateName").value = data.userName;
-        //console.log(data);
-        getName = false;
-      });
-  }
-  function updateNameAPI() {
-    //console.log(userName);
-    fetch("/api/getProfile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: data.userId,
-        callFor: "updateUserName",
-        userName: userName,
-      }),
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (data && data.Success) {
-          setUpdateNameField(false);
-          getName = true;
-          getNameAPI();
-        } else {
-          setError(data.error);
-        }
-      });
-  }
+  // function getNameAPI() {
+  //   fetch("/api/getProfile", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       id: data.userId,
+  //       callFor: "getUserName",
+  //     }),
+  //   })
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       document.getElementById("updateName").value = data.userName;
+  //       //console.log(data);
+  //       getName = false;
+  //     });
+  // }
+  // function updateNameAPI() {
+  //   //console.log(userName);
+  //   fetch("/api/getProfile", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       id: data.userId,
+  //       callFor: "updateUserName",
+  //       userName: userName,
+  //     }),
+  //   })
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       if (data && data.Success) {
+  //         setUpdateNameField(false);
+  //         getName = true;
+  //         getNameAPI();
+  //       } else {
+  //         setError(data.error);
+  //       }
+  //     });
+  // }
   function updatePassAPI() {
     // console.log("update password");
     fetch("/api/getProfile", {
@@ -158,7 +158,7 @@ function profile() {
                     <div className="card-content">
                       <div className="card-body">
                         <div className="form-body">
-                          <div className="row">
+                          {/* <div className="row">
                             <div className="col-md-2">
                               <label>User Name</label>
                             </div>
@@ -209,7 +209,7 @@ function profile() {
                                 </button>
                               )}
                             </div>
-                          </div>
+                          </div> */}
                           <div className="row">
                             <div className="col-md-2">
                               <label>Password</label>
