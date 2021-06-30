@@ -35,7 +35,7 @@ const Login = () => {
       .then((r) => r.json())
       .then((data) => {
         // console.log(data);
-        if (data && data.Success) {
+        if (data && !data.Success) {
           setLoginError(data.error);
         }
         if (data && data.token) {

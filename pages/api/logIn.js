@@ -17,14 +17,16 @@ handler.post(async (req, res) => {
       password,
     });
 
-    // const user = await new User().find({ email, password }).exec();
-
-    const token = jwt.sign({ userId: user._id, email: user.email }, jwtSecret, {
-      expiresIn: 30000, //50 minutes
-    });
-    // res.status(200).send({ Success: true });
-    if (user) res.status(200).send({ Success: true, token: token });
-    else
+    if (user) {
+      const token = jwt.sign(
+        { userId: user._id, email: user.email },
+        jwtSecret,
+        {
+          expiresIn: 3000, //50 minutes
+        }
+      );
+      res.status(200).send({ Success: true, token: token });
+    } else
       res
         .status(200)
         .send({ Success: false, error: "User/Password is not matching" });
